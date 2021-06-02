@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="4a8a00904bae35c1104942c334d95ef2">
+    <link href="38d515c74af1b925fff6261da18652e0" rel="stylesheet">
+    <link rel="stylesheet" href="dc805206b2a2c116fee52a4a8d5166ee">
+    <title>Zeus - Weather Forecast</title>
+    <script defer="" src="8073f96cab1af32a994b2f4b0ae1cd3d"></script>
+  </head>
+  <!-- Naming Convention:  - => simple space,  __ => part of, -- => type of  -->
+  <body>
+    <div class="container">
+      <nav class="nav">
+        <div class="nav__left">
+          <button class="logo">Zeus</button>
+          <div class="search">Search Location</div>
+        </div>
+        <div class="nav__right">
+          <button class="map-btn"><i class="fas fa-globe-asia"></i></button>
+        </div>
+      </nav>
+      <main class="main">
+        <div class="main__left">Daily</div>
+        <div class="main__right">Weekly</div>
+      </main>
+      <footer>Copyright © 2021 Tom Tak. All rights reserved.</footer>
+    </div>
+  </body>
+</html>
