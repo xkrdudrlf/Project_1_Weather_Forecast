@@ -15,7 +15,7 @@ body {
   background-color: grey;
 }
 .container .nav {
-  background-color: blue;
+  background-color: pink;
 }
 .container .nav .logo {
   border: none;
@@ -23,6 +23,6 @@ body {
   width: 100px;
   font-size: 3rem;
   cursor: pointer;
-  background-color: red;
+  background-color: blue;
 }
 /*# sourceMappingURL=index.d1395536.css.map */
