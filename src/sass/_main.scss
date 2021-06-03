@@ -1,0 +1,31 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  &__left {
+    display: flex;
+    .logo-btn {
+      @include btn-default;
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .search {
+      width: 450px;
+      margin: 20px;
+      margin-right: 0;
+      border: 1px solid black;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__right {
+    display: flex;
+    .map-btn {
+      @include btn-default;
+      i {
+        font-size: 2.7rem;
+      }
+    }
+  }
+}
