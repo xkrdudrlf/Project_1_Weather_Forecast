@@ -381,14 +381,88 @@ function hmrAcceptRun(bundle/*: ParcelRequire */ , id/*: string */ ) {
 }
 
 },{}],"3GZMZ":[function(require,module,exports) {
-console.log("hello");
-console.log("hi");
-console.log("hi");
-console.log("hi");
-console.log("hi");
-console.log("hi");
-console.log("hi");
-console.log("hi");
+var _config = require("./config");
+// 1. Get the weather info based on the current location
+const getCurrentPosition = new Promise(function(resolve, reject) {
+    function success(pos) {
+        resolve({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude
+        });
+    }
+    function error(err) {
+        reject(err.message);
+    }
+    navigator.geolocation.getCurrentPosition(success, error);
+});
+const timeout = function(seconds) {
+    return new Promise(function(_, reject) {
+        setTimeout(function() {
+            reject(new Error(`Request took too long! Timeout after ${seconds} seconds`));
+        }, seconds * 1000);
+    });
+};
+const getJSON = async function(url) {
+    const res = await Promise.race([
+        fetch(url),
+        timeout(10)
+    ]);
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    return data;
+};
+const loadWeatherInfo = async function() {
+    getCurrentPosition.then((coords)=>getJSON(`${_config.API_URL}?&units=metric&lat=${coords.lat}&lon=${coords.lng}&appid=${_config.KEY}`)
+    ).then((data)=>console.log(data)
+    ).catch((err)=>console.error(err)
+    );
+};
+loadWeatherInfo(); // 2. Get the name for the current location(Reverse Geocoding)
+ // http://api.openweathermap.org/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={API key}
+ // 3. Combine 1 & 2
+ // 4. Display 3 to the html.
+
+},{"./config":"6pr2F"}],"6pr2F":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "KEY", ()=>KEY
+);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL
+);
+const KEY = "2d5b664a90fd135ee6ba5a3a7b613cfd";
+const API_URL = `https://api.openweathermap.org/data/2.5/onecall`;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"367CR"}],"367CR":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule') return;
+        // Skip duplicate re-exports when they have the same value.
+        if (key in dest && dest[key] === source[key]) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
 
 },{}]},["23Vuq","3GZMZ"], "3GZMZ", "parcelRequire3a46")
 

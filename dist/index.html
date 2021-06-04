@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="/index.e3d0e11f.css">
-    <script defer="" src="/index.355c732e.js"></script>
+    <script defer="" src="/index.9e8dcc19.js"></script>
     <title>Zeus - Weather Forecast</title>
   </head>
   <!-- Naming Convention:  - => simple space,  __ => part of, -- => type of  -->
@@ -16,19 +16,184 @@
     <div class="container">
       <nav class="nav">
         <div class="nav__left">
-          <button class="logo-btn">Zeus</button>
-          <div class="search">Search Location</div>
+          <button class="btn logo">Zeus</button>
+          <div class="search-bar">Search Location</div>
         </div>
         <div class="nav__right">
-          <button class="map-btn"><i class="fas fa-globe-asia"></i></button>
+          <button class="btn map"><i class="fas fa-globe-asia"></i></button>
         </div>
       </nav>
 
       <main class="main">
-        <div class="main__left">Daily</div>
-        <div class="main__right">Weekly</div>
+        <div class="main__daily">
+          <div class="top">
+            <div class="header">Daily Weather</div>
+            <div class="btn bookmark"><i class="far fa-bookmark"></i></div>
+            <!-- <div class="btn bookmark"><i class="fas fa-bookmark"></i></div> -->
+          </div>
+          <div class="mid">
+            <div class="weather-info--main">
+              <div class="weather-icon--lg">
+                <i class="fas fa-sun"></i>
+              </div>
+              <div class="contents">
+                <div class="item city">Busan</div>
+                <div class="item">Sunny / 22℃</div>
+                <div class="item">09:00am</div>
+              </div>
+            </div>
+            <div class="weather-info--detail">
+              <div class="contents">
+                <div class="item">Min: 17</div>
+                <div class="item">Max: 20</div>
+                <div class="item">UV: 9</div>
+                <div class="item">Chances of Rain: 0%</div>
+              </div>
+            </div>
+          </div>
+          <div class="btm">
+            <div class="weather-info-container">
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="weather-info-container">
+              <div class="weather-info--hourly">
+                <div class="time">10:00am</div>
+                <div class="weather">
+                  <div class="weather-icon--sm">
+                    <i class="fas fa-sun"></i>
+                  </div>
+                  <div class="temperature">27℃</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="main__weekly">
+          <div class="header">Weekly Weather</div>
+          <div class="weather-info-container">
+            <div class="weather-info-daily">
+              <div class="day">Mon</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Tue</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Wed</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Thu</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Fri</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Sat</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+            <div class="weather-info-daily">
+              <div class="day">Sun</div>
+              <div class="weather">
+                <div class="weather-icon--sm">
+                  <i class="fas fa-sun"></i>
+                </div>
+                <div class="temperature">15℃/27℃</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </main>
-      <footer>Copyright © 2021 Tom Tak. All rights reserved.</footer>
+      <div class="footer">
+        Copyright © 2021 Tom Tak. All rights reserved.
+      
     </div>
-  </body>
+  </div></body>
 </html>

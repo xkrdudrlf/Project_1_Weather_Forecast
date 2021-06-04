@@ -1,12 +1,7 @@
 // Variables
-$main-font-size: 3rem;
-
-// Mixins
-@mixin btn-default {
-  border: none;
-  cursor: pointer;
-  background: none;
-}
+$p-std: 20px;
+$p-lr-std: 20px;
+$br-std: 5px;
 
 * {
   box-sizing: border-box;
@@ -22,6 +17,10 @@ body {
   min-height: 100vh;
   max-width: 1200px;
   margin: 0 auto;
-  // border: 1px solid black;
-  // background-color: grey;
+}
+
+.btn {
+  border: none;
+  cursor: pointer;
+  background: none;
 }

@@ -1,0 +1,32 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  padding: $p-std;
+  height: 12.5vh;
+  &__left {
+    display: flex;
+    .logo {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+    .search-bar {
+      align-self: center;
+      max-height: 50px;
+      width: 450px;
+      margin-left: 20px;
+      border: 1px solid black;
+      border-radius: $br-std;
+      padding: 10px;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__right {
+    display: flex;
+    .map {
+      i {
+        font-size: 2.7rem;
+      }
+    }
+  }
+}
