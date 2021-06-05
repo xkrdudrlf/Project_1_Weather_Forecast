@@ -1,8 +1,7 @@
-import { KEY, API_URL_WEATHER, API_URL_LOCATION } from "./config";
-import { getDay, getJSON, getTime, getDay } from "./helpers";
+import { KEY, API_URL_WEATHER, API_URL_LOCATION } from "../config";
+import { getDay, getJSON, getTime, getDay } from "../helpers";
 
 export const state = {
-  city: "",
   current: {},
   daily: {},
   hourly: [],
@@ -27,7 +26,7 @@ const loadCityInfo = async function (coords) {
 
     if (cityInfo.length === 0) throw new Error("No city found");
 
-    state.city = cityInfo[0].name;
+    state.current.city = cityInfo[0].name;
   } catch (err) {
     throw new Error(err.message);
   }
@@ -84,15 +83,12 @@ const loadWeatherInfo = async function (coords) {
   }
 };
 
-const load = async function () {
+export const load = async function () {
   try {
     const coords = await getCurrentPosition;
     await loadCityInfo(coords);
     await loadWeatherInfo(coords);
-    console.log(state);
   } catch (err) {
     throw new Error(err.message);
   }
 };
-
-load();

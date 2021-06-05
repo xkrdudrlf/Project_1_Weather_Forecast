@@ -1,4 +1,4 @@
-$mg-btm-section: 5%;
+$mg-btm-section: 3%;
 $ft-size-header: 1.7rem;
 $top-height: 10%;
 $mid-height: 30%;
@@ -52,9 +52,9 @@ $btm-height: 50%;
             justify-content: center;
             align-items: center;
             width: 40%;
-            i {
-              font-size: 7rem;
-              color: yellow;
+            img {
+              height: 200px;
+              width: 200px;
             }
           }
           .contents {
@@ -98,10 +98,20 @@ $btm-height: 50%;
         .weather-info--hourly {
           display: flex;
           justify-content: space-between;
-          padding: 10px 20px;
+          align-items: center;
+          padding: 0 20px;
           font-size: 1.2rem;
           .weather {
             display: flex;
+            align-items: center;
+            .weather-icon--sm {
+              height: 30px;
+              width: 30px;
+              img {
+                height: 30px;
+                width: 30px;
+              }
+            }
             .temperature {
               margin-left: 20px;
             }
@@ -134,10 +144,87 @@ $btm-height: 50%;
       .weather-info-daily {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         .weather {
           display: flex;
+          align-items: center;
           .temperature {
             margin-left: 20px;
+          }
+        }
+      }
+    }
+  }
+
+  .search-result {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: $br-std;
+    padding: 40px;
+    &__header {
+      height: 5%;
+      min-height: 25px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      margin-bottom: $mg-btm-section;
+    }
+    &__grid {
+      display: grid;
+      grid-template-rows: repeat(auto-fit, 250px);
+      grid-template-columns: repeat(auto-fit, 275px);
+      height: 90%;
+    }
+    &__item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 15px 20px;
+      border: 1px solid black;
+      border-radius: $br-std;
+      .top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        .location {
+          .city {
+            font-size: 2.5rem;
+            margin-bottom: 0.8rem;
+          }
+          .country {
+            font-size: 1.25rem;
+            margin-left: 2.5px;
+          }
+        }
+        .bookmark {
+          font-size: 2.5rem;
+          color: blue;
+        }
+      }
+      .btm {
+        display: flex;
+        .weather-icon {
+          display: flex;
+          justify-content: center;
+          overflow: hidden;
+          width: 50px;
+          img {
+            height: 100px;
+          }
+        }
+        .weather-info {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 30px;
+          .temperature {
+            font-size: 2rem;
+          }
+          .time {
+            font-size: 1.5rem;
           }
         }
       }

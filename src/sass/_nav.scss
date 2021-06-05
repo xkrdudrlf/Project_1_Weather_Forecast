@@ -5,12 +5,12 @@
   height: 12.5vh;
   &__left {
     display: flex;
+    align-items: center;
     .logo {
       font-size: 2.5rem;
       font-weight: bold;
     }
     .search-bar {
-      align-self: center;
       max-height: 50px;
       width: 450px;
       margin-left: 20px;
