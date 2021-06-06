@@ -1,25 +1,50 @@
-import { KEY, API_URL_WEATHER, API_URL_LOCATION } from "../config";
-import { getDay, getJSON, getTime, getDay } from "../helpers";
+import { KEY, API_URL_SEARCH } from "../config";
+import { getJSON, getTime } from "../helpers";
+import cityIDMap from "../../data/city.list.json";
 
-/*
-  < Steps required to render a search result>
-  [C] 1. Get search input from a user 
-  2. Make a request to the API server with the input
-    - Searching by a name only returns a single result even when there are
-    multiple possible results.
-    Hence, should manually download the file conatining the id-city map to
-    extract ids of matching cities.
-    Then, we can make a request with multiple city ids now to the server and 
-    get the results.
-    => Download the id-city name map data
-  3. Receive and store the response data to state
-  4. send the data in the state to the view via controller.js
+export let searchResult = [];
 
-*/
+const getCityIDs = function (cityName) {
+  cityName = cityName.toLowerCase();
 
-export const loadCityInfo = async function (name) {
-  const data = await getJSON(
-    `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=${KEY}`
-  );
-  console.log(data);
+  const cityIDs = cityIDMap
+    .filter((obj) => obj.name.toLowerCase() === cityName)
+    .map((obj) => obj.id);
+
+  return cityIDs;
+};
+
+export const load = async function (name) {
+  try {
+    // 0. Clear the previous search result.
+    searchResult = [];
+
+    // 1. Get "cityIDs" for the given name
+    const cityIDs = getCityIDs(name);
+    if (!cityIDs) return;
+
+    // 2. Get "weatherDataArr" via request(s) to the server with "cityIDs"
+    const weatherDataArr = await Promise.all(
+      cityIDs.map((id) =>
+        getJSON(`${API_URL_SEARCH}?&units=metric&id=${id}&appid=${KEY}`)
+      )
+    );
+
+    // 3. Store data in "weatherDataArr" to "searchResult"
+    weatherDataArr.forEach((weatherData) => {
+      const weather = {
+        id: weatherData.id,
+        city: weatherData.name,
+        country: weatherData.sys.country,
+        current: {
+          icon: weatherData.weather[0].icon,
+          temp: Math.floor(weatherData.main.temp),
+          time: getTime(weatherData.dt),
+        },
+      };
+      if (searchResult.includes) searchResult.push(weather);
+    });
+  } catch (err) {
+    throw new Error(err.message);
+  }
 };

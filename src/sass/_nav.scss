@@ -9,6 +9,10 @@
     .logo {
       font-size: 2.5rem;
       font-weight: bold;
+      &:focus,
+      &:active {
+        outline: none;
+      }
     }
     .search-bar {
       max-height: 50px;

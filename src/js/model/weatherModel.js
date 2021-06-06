@@ -1,7 +1,8 @@
 import { KEY, API_URL_WEATHER, API_URL_LOCATION } from "../config";
-import { getDay, getJSON, getTime, getDay } from "../helpers";
+import { getDay, getJSON, getTime } from "../helpers";
 
 export const state = {
+  id: "",
   current: {},
   daily: {},
   hourly: [],
@@ -33,6 +34,7 @@ const loadCityInfo = async function (coords) {
 };
 
 const loadCurrentInfo = function (weatherInfo) {
+  state.id = weatherInfo.current.weather[0].id;
   state.current.icon = weatherInfo.current.weather[0].icon;
   state.current.desc = weatherInfo.current.weather[0].main;
   state.current.temp = Math.floor(weatherInfo.current.temp);
@@ -50,7 +52,7 @@ const loadNext12HoursInfo = function (weatherInfo) {
   state.hourly = weatherInfo.hourly.slice(1, 13).map((info) => {
     return {
       time: getTime(info.dt),
-      temp: info.temp,
+      temp: Math.floor(info.temp),
       icon: info.weather[0].icon,
     };
   });
@@ -60,8 +62,8 @@ const loadNext7DaysInfo = function (weatherInfo) {
   state.weekly = weatherInfo.daily.slice(1, 8).map((info) => {
     return {
       day: getDay(info.dt),
-      min: info.temp.min,
-      max: info.temp.max,
+      min: Math.floor(info.temp.min),
+      max: Math.floor(info.temp.max),
       icon: info.weather[0].icon,
     };
   });

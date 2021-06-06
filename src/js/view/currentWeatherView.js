@@ -1,10 +1,54 @@
 import View from "./View";
 
-class DailyWeatherView extends View {
+class CurrentWeatherView extends View {
   _parentElement = document.querySelector(".main");
   _data;
 
+  addHandlerCurrentWeather(handler) {
+    window.addEventListener("load", (e) => {
+      e.preventDefault();
+      handler();
+    });
+  }
+
+  addHandlerClickLogo(handler) {
+    const logo = document.querySelector(".logo");
+    logo.addEventListener("click", (e) => {
+      e.preventDefault();
+      handler();
+    });
+  }
+
+  addHandlerBookmark(handler) {
+    const bookmark = document.querySelector(".bookmark");
+    bookmark.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isBookmarked = handler(bookmark.dataset.cityId);
+
+      bookmark.innerHTML = "";
+
+      if (isBookmarked) {
+        bookmark.insertAdjacentHTML(
+          "afterbegin",
+          `<i class="fas fa-bookmark"></i>`
+        );
+      } else {
+        bookmark.insertAdjacentHTML(
+          "afterbegin",
+          `<i class="far fa-bookmark"></i>`
+        );
+      }
+    });
+  }
+
   _generateMarkup() {
+    let markup = ``;
+    markup += this._generateMarkupDaily();
+    markup += this._generateMarkupWeekly();
+    return markup;
+  }
+
+  _generateMarkupDaily() {
     let markup = ``;
     markup += `<div class="main__daily">`;
     markup += this._generateMarkupTop();
@@ -18,7 +62,7 @@ class DailyWeatherView extends View {
     return `
       <div class="top">
         <div class="header">Daily Weather</div>
-        <div class="btn bookmark"><i class="far fa-bookmark"></i></div>
+        <div class="btn bookmark" data-city-id="${this._data.id}"><i class="far fa-bookmark"></i></div>
       </div>
     `;
   }
@@ -57,11 +101,9 @@ class DailyWeatherView extends View {
           <div class="time">${info.time}</div>
           <div class="weather">
             <div class="weather-icon--sm">
-            <img src="http://openweathermap.org/img/w/${
-              info.icon
-            }.png" alt="weather-icon">
+            <img src="http://openweathermap.org/img/w/${info.icon}.png" alt="weather-icon">
             </div>
-            <div class="temperature">${Math.floor(info.temp)}℃</div>
+            <div class="temperature">${info.temp}℃</div>
           </div>
         </div>`;
     });
@@ -74,11 +116,9 @@ class DailyWeatherView extends View {
           <div class="time">${info.time}</div>
           <div class="weather">
             <div class="weather-icon--sm">
-            <img src="http://openweathermap.org/img/w/${
-              info.icon
-            }.png" alt="weather-icon">
+            <img src="http://openweathermap.org/img/w/${info.icon}.png" alt="weather-icon">
             </div>
-            <div class="temperature">${Math.floor(info.temp)}℃</div>
+            <div class="temperature">${info.temp}℃</div>
           </div>
         </div>`;
     });
@@ -87,6 +127,30 @@ class DailyWeatherView extends View {
     markup += `</div>`;
     return markup;
   }
+
+  _generateMarkupWeekly() {
+    let markup = ``;
+    markup += `<div class="main__weekly">`;
+    markup += `<div class="header">Weekly Weather</div>`;
+    markup += `<div class="weather-info-container">`;
+    this._data.weekly.slice(0, 7).forEach((info) => {
+      markup += `
+        <div class="weather-info-daily">
+          <div class="day">${info.day}</div>
+          <div class="weather">
+            <div class="weather-icon--sm">
+            <img src="http://openweathermap.org/img/w/${info.icon}.png" alt="weather-icon">
+            </div>
+            <div class="temperature">
+              ${info.min}℃/${info.max}℃
+            </div>
+          </div>
+        </div>`;
+    });
+    markup += `</div>`;
+    markup += `</div>`;
+    return markup;
+  }
 }
 
-export default new DailyWeatherView();
+export default new CurrentWeatherView();
