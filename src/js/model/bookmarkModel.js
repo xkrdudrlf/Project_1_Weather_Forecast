@@ -1,4 +1,4 @@
-const bookmarks = [];
+export let bookmarks = [];
 
 export const toggle = function (cityId) {
   const index = bookmarks.findIndex((el) => el === cityId);
@@ -9,4 +9,9 @@ export const toggle = function (cityId) {
   localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
 
   return index === -1;
+};
+
+export const load = function () {
+  bookmarks = JSON.parse(window.localStorage.getItem("bookmarks"));
+  console.log(bookmarks);
 };

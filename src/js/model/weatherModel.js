@@ -7,6 +7,7 @@ export const state = {
   daily: {},
   hourly: [],
   weekly: [],
+  isBookmarked: false,
 };
 
 const getCurrentPosition = new Promise(function (resolve, reject) {
@@ -85,11 +86,16 @@ const loadWeatherInfo = async function (coords) {
   }
 };
 
-export const load = async function () {
+const loadBookmarkInfo = function (bookmarks) {
+  state.isBookmarked = bookmarks.includes(String(state.id));
+};
+
+export const load = async function (bookmarks) {
   try {
     const coords = await getCurrentPosition;
     await loadCityInfo(coords);
     await loadWeatherInfo(coords);
+    loadBookmarkInfo(bookmarks);
   } catch (err) {
     throw new Error(err.message);
   }

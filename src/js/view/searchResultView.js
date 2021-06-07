@@ -18,37 +18,13 @@ class SearchResultView extends View {
     });
   }
 
-  addHandlerBookmark(handler) {
-    const bookmarks = document.querySelectorAll(".bookmark");
-    [...bookmarks].forEach((bookmark) => {
-      bookmark.addEventListener("click", (e) => {
-        e.preventDefault();
-        const isBookmarked = handler(bookmark.dataset.cityId);
-
-        bookmark.innerHTML = "";
-
-        if (isBookmarked) {
-          bookmark.insertAdjacentHTML(
-            "afterbegin",
-            `<i class="fas fa-bookmark"></i>`
-          );
-        } else {
-          bookmark.insertAdjacentHTML(
-            "afterbegin",
-            `<i class="far fa-bookmark"></i>`
-          );
-        }
-      });
-    });
-  }
-
   _generateMarkup() {
-    console.log(this._data);
     const resultMsg = `${
       this._data.length
         ? `There are ${this._data.length} search result(s)`
         : "No result found"
     }`;
+
     let markup = "";
     markup += `<div class="search-result">`;
     markup += `<div class="search-result__header">${resultMsg}</div>`;
@@ -63,12 +39,14 @@ class SearchResultView extends View {
               <div class="country">${el.country}</div>
             </div>
             <div class="btn bookmark" data-city-id="${el.id}">
-              <i class="far fa-bookmark"></i>
+              ${this._generateMarkupBookmarkIcon(el.isBookmarked)}
             </div>
           </div>
           <div class="btm">
             <div class="weather-icon">
-              <img src="http://openweathermap.org/img/w/${el.current.icon}.png" alt="weather-icon">
+              <img src="http://openweathermap.org/img/w/${
+                el.current.icon
+              }.png" alt="weather-icon">
             </div>
             <div class="weather-info">
               <div class="temperature">${el.current.temp}℃</div>

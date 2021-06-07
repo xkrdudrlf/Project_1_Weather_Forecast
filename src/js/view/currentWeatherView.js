@@ -19,28 +19,6 @@ class CurrentWeatherView extends View {
     });
   }
 
-  addHandlerBookmark(handler) {
-    const bookmark = document.querySelector(".bookmark");
-    bookmark.addEventListener("click", (e) => {
-      e.preventDefault();
-      const isBookmarked = handler(bookmark.dataset.cityId);
-
-      bookmark.innerHTML = "";
-
-      if (isBookmarked) {
-        bookmark.insertAdjacentHTML(
-          "afterbegin",
-          `<i class="fas fa-bookmark"></i>`
-        );
-      } else {
-        bookmark.insertAdjacentHTML(
-          "afterbegin",
-          `<i class="far fa-bookmark"></i>`
-        );
-      }
-    });
-  }
-
   _generateMarkup() {
     let markup = ``;
     markup += this._generateMarkupDaily();
@@ -62,7 +40,9 @@ class CurrentWeatherView extends View {
     return `
       <div class="top">
         <div class="header">Daily Weather</div>
-        <div class="btn bookmark" data-city-id="${this._data.id}"><i class="far fa-bookmark"></i></div>
+        <div class="btn bookmark" data-city-id="${this._data.id}">
+          ${this._generateMarkupBookmarkIcon(this._data.isBookmarked)}
+        </div>
       </div>
     `;
   }

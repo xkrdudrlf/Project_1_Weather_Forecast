@@ -14,7 +14,7 @@ const getCityIDs = function (cityName) {
   return cityIDs;
 };
 
-export const load = async function (name) {
+export const load = async function (name, bookmarks) {
   try {
     // 0. Clear the previous search result.
     searchResult = [];
@@ -41,8 +41,9 @@ export const load = async function (name) {
           temp: Math.floor(weatherData.main.temp),
           time: getTime(weatherData.dt),
         },
+        isBookmarked: bookmarks.includes(String(weatherData.id)),
       };
-      if (searchResult.includes) searchResult.push(weather);
+      searchResult.push(weather);
     });
   } catch (err) {
     throw new Error(err.message);
