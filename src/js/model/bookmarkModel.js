@@ -1,9 +1,13 @@
-export let bookmarks = [];
+import { isSameLocation } from "../helpers";
 
-export const toggle = function (cityId) {
-  const index = bookmarks.findIndex((el) => el === cityId);
+export let bookmarks;
 
-  if (index === -1) bookmarks.push(cityId);
+export const toggle = function (coords) {
+  const index = bookmarks.findIndex((bookmark) =>
+    isSameLocation(bookmark, coords)
+  );
+
+  if (index === -1) bookmarks.push(coords);
   else bookmarks.splice(index, 1);
 
   localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
@@ -13,5 +17,5 @@ export const toggle = function (cityId) {
 
 export const load = function () {
   bookmarks = JSON.parse(window.localStorage.getItem("bookmarks"));
-  console.log(bookmarks);
+  if (!bookmarks) bookmarks = [];
 };

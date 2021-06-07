@@ -1,10 +1,10 @@
 import View from "./View";
 
-class CurrentWeatherView extends View {
+class WeatherView extends View {
   _parentElement = document.querySelector(".main");
   _data;
 
-  addHandlerCurrentWeather(handler) {
+  addHandlerWeather(handler) {
     window.addEventListener("load", (e) => {
       e.preventDefault();
       handler();
@@ -40,7 +40,9 @@ class CurrentWeatherView extends View {
     return `
       <div class="top">
         <div class="header">Daily Weather</div>
-        <div class="btn bookmark" data-city-id="${this._data.id}">
+        <div class="btn bookmark" 
+          data-lat="${this._data.coords.lat}" 
+          data-lng="${this._data.coords.lng}">
           ${this._generateMarkupBookmarkIcon(this._data.isBookmarked)}
         </div>
       </div>
@@ -133,4 +135,4 @@ class CurrentWeatherView extends View {
   }
 }
 
-export default new CurrentWeatherView();
+export default new WeatherView();

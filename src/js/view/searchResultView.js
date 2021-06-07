@@ -18,6 +18,22 @@ class SearchResultView extends View {
     });
   }
 
+  addHandlerSearchResultItem(handler) {
+    const searchResultItems = document.querySelectorAll(".search-result__item");
+    [...searchResultItems].forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (!e.target.classList.contains("city")) return;
+        const bookmark = item.querySelector(".bookmark");
+        const coords = {
+          lat: bookmark.dataset.lat,
+          lng: bookmark.dataset.lng,
+        };
+        handler(coords);
+      });
+    });
+  }
+
   _generateMarkup() {
     const resultMsg = `${
       this._data.length
@@ -35,10 +51,14 @@ class SearchResultView extends View {
         <div class="search-result__item">
           <div class="top">
             <div class="location">
-              <div class="city">${el.city}</div>
+              <div class="city">
+                ${el.city}
+              </div>
               <div class="country">${el.country}</div>
             </div>
-            <div class="btn bookmark" data-city-id="${el.id}">
+            <div class="btn bookmark" 
+              data-lat="${el.coords.lat}" 
+              data-lng="${el.coords.lng}">
               ${this._generateMarkupBookmarkIcon(el.isBookmarked)}
             </div>
           </div>

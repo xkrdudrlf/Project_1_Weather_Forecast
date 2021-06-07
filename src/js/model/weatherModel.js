@@ -1,8 +1,8 @@
-import { KEY, API_URL_WEATHER, API_URL_LOCATION } from "../config";
-import { getDay, getJSON, getTime } from "../helpers";
+import { KEY, API_URL_ONECALL, API_URL_REVERSE_GEOCODING } from "../config";
+import { getDay, getJSON, getTime, isBookmarked } from "../helpers";
 
 export const state = {
-  id: "",
+  coords: "",
   current: {},
   daily: {},
   hourly: [],
@@ -10,20 +10,34 @@ export const state = {
   isBookmarked: false,
 };
 
-const getCurrentPosition = new Promise(function (resolve, reject) {
-  function success(pos) {
-    resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-  }
-  function error(err) {
-    reject(err.message);
-  }
-  navigator.geolocation.getCurrentPosition(success, error);
-});
+const getCoords = function (location) {
+  return new Promise(async function (resolve, reject) {
+    function success(pos) {
+      state.coords = {
+        lat: pos.coords.latitude.toFixed(2),
+        lng: pos.coords.longitude.toFixed(2),
+      };
+      resolve();
+    }
+    function error(err) {
+      reject(err.message);
+    }
+    if (location) {
+      state.coords = {
+        lat: location.lat,
+        lng: location.lng,
+      };
+      resolve();
+    } else {
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  });
+};
 
-const loadCityInfo = async function (coords) {
+const loadCityName = async function () {
   try {
-    const cityInfo = await getJSON(
-      `${API_URL_LOCATION}?lat=${coords.lat}&lon=${coords.lng}&limit=5&appid=${KEY}`
+    let cityInfo = await getJSON(
+      `${API_URL_REVERSE_GEOCODING}?lat=${state.coords.lat}&lon=${state.coords.lng}&limit=5&appid=${KEY}`
     );
 
     if (cityInfo.length === 0) throw new Error("No city found");
@@ -35,7 +49,6 @@ const loadCityInfo = async function (coords) {
 };
 
 const loadCurrentInfo = function (weatherInfo) {
-  state.id = weatherInfo.current.weather[0].id;
   state.current.icon = weatherInfo.current.weather[0].icon;
   state.current.desc = weatherInfo.current.weather[0].main;
   state.current.temp = Math.floor(weatherInfo.current.temp);
@@ -70,10 +83,10 @@ const loadNext7DaysInfo = function (weatherInfo) {
   });
 };
 
-const loadWeatherInfo = async function (coords) {
+const loadWeatherInfo = async function () {
   try {
     const weatherInfo = await getJSON(
-      `${API_URL_WEATHER}?&units=metric&lat=${coords.lat}&lon=${coords.lng}&appid=${KEY}`
+      `${API_URL_ONECALL}?&units=metric&lat=${state.coords.lat}&lon=${state.coords.lng}&appid=${KEY}`
     );
     [
       loadCurrentInfo,
@@ -87,14 +100,14 @@ const loadWeatherInfo = async function (coords) {
 };
 
 const loadBookmarkInfo = function (bookmarks) {
-  state.isBookmarked = bookmarks.includes(String(state.id));
+  state.isBookmarked = isBookmarked(bookmarks, state.coords);
 };
 
-export const load = async function (bookmarks) {
+export const load = async function (bookmarks, location) {
   try {
-    const coords = await getCurrentPosition;
-    await loadCityInfo(coords);
-    await loadWeatherInfo(coords);
+    await getCoords(location);
+    await loadCityName();
+    await loadWeatherInfo();
     loadBookmarkInfo(bookmarks);
   } catch (err) {
     throw new Error(err.message);

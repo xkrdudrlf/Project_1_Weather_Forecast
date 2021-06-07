@@ -41,3 +41,12 @@ export const getDay = function (dt) {
     ? "Fri"
     : "Sat";
 };
+
+export const isBookmarked = function (bookmarks, coords) {
+  const find = bookmarks.filter((bookmark) => isSameLocation(bookmark, coords));
+  return find.length > 0;
+};
+
+export const isSameLocation = function (loca1, loca2) {
+  return loca1.lat - loca2.lat < 1 && loca1.lng - loca2.lng < 1;
+};

@@ -15,7 +15,10 @@ export default class View {
     [...bookmarks].forEach((bookmark) => {
       bookmark.addEventListener("click", (e) => {
         e.preventDefault();
-        const isBookmarked = handler(bookmark.dataset.cityId);
+        const isBookmarked = handler(
+          bookmark.dataset.lat,
+          bookmark.dataset.lng
+        );
 
         bookmark.innerHTML = "";
         bookmark.insertAdjacentHTML(

@@ -174,7 +174,6 @@ $btm-height: 50%;
     &__grid {
       display: flex;
       flex-wrap: wrap;
-      // justify-content: space-around;
       align-items: space-around;
       height: 90%;
     }
@@ -196,6 +195,7 @@ $btm-height: 50%;
           .city {
             font-size: 2.5rem;
             margin-bottom: 0.8rem;
+            cursor: pointer;
           }
           .country {
             font-size: 1.25rem;

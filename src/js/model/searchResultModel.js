@@ -1,39 +1,52 @@
-import { KEY, API_URL_SEARCH } from "../config";
-import { getJSON, getTime } from "../helpers";
-import cityIDMap from "../../data/city.list.json";
+import { KEY, API_URL_WEATHER, API_URL_GEOCODING } from "../config";
+import { getJSON, getTime, isBookmarked, isSameLocation } from "../helpers";
 
 export let searchResult = [];
 
-const getCityIDs = function (cityName) {
+const getCityCoords = async function (cityName) {
   cityName = cityName.toLowerCase();
 
-  const cityIDs = cityIDMap
-    .filter((obj) => obj.name.toLowerCase() === cityName)
-    .map((obj) => obj.id);
+  const cities = await getJSON(
+    `${API_URL_GEOCODING}?q=${cityName}&limit=100&appid=${KEY}`
+  );
 
-  return cityIDs;
+  const cityCoords = cities.map((city) => {
+    return { lat: city.lat, lng: city.lon };
+  });
+
+  return cityCoords;
 };
 
-export const load = async function (name, bookmarks) {
+const contains = function (container, item) {
+  return (
+    container.findIndex((el) => isSameLocation(el.coords, item.coords)) >= 0
+  );
+};
+
+export const load = async function (cityName, bookmarks) {
   try {
     // 0. Clear the previous search result.
     searchResult = [];
 
-    // 1. Get "cityIDs" for the given name
-    const cityIDs = getCityIDs(name);
-    if (!cityIDs) return;
+    // 1. Get cityCoords with cityName (There can be multiple cities)
+    const cityCoords = await getCityCoords(cityName);
 
-    // 2. Get "weatherDataArr" via request(s) to the server with "cityIDs"
+    // 2. Get "weatherDataArr" via request(s) to the server with "cityCoords"
     const weatherDataArr = await Promise.all(
-      cityIDs.map((id) =>
-        getJSON(`${API_URL_SEARCH}?&units=metric&id=${id}&appid=${KEY}`)
+      cityCoords.map((city) =>
+        getJSON(
+          `${API_URL_WEATHER}?&units=metric&lat=${city.lat}&lon=${city.lng}&appid=${KEY}`
+        )
       )
     );
 
     // 3. Store data in "weatherDataArr" to "searchResult"
     weatherDataArr.forEach((weatherData) => {
       const weather = {
-        id: weatherData.id,
+        coords: {
+          lat: weatherData.coord.lat.toFixed(2),
+          lng: weatherData.coord.lon.toFixed(2),
+        },
         city: weatherData.name,
         country: weatherData.sys.country,
         current: {
@@ -41,9 +54,12 @@ export const load = async function (name, bookmarks) {
           temp: Math.floor(weatherData.main.temp),
           time: getTime(weatherData.dt),
         },
-        isBookmarked: bookmarks.includes(String(weatherData.id)),
+        isBookmarked: isBookmarked(bookmarks, {
+          lat: weatherData.coord.lat.toFixed(2),
+          lng: weatherData.coord.lon.toFixed(2),
+        }),
       };
-      searchResult.push(weather);
+      if (!contains(searchResult, weather)) searchResult.push(weather);
     });
   } catch (err) {
     throw new Error(err.message);
