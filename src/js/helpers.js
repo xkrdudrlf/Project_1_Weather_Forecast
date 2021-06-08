@@ -1,3 +1,4 @@
+import { API_URL_TIME, KEY_GOOGLE_API } from "./config";
 const timeout = function (seconds) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -17,12 +18,29 @@ export const getJSON = async function (url) {
   return data;
 };
 
-export const getTime = function (dt) {
-  const date = new Date(dt * 1000);
-  const hour = date.getHours() > 9 ? date.getHours() : "0" + date.getHours();
-  const minute =
-    date.getMinutes() > 9 ? date.getMinutes() : "0" + date.getMinutes();
+export const getTime = function (timezone) {
+  const date = new Date();
+  const UTCHour = date.getUTCHours();
+  const UTCMinute = date.getUTCMinutes();
+
+  // timezone is in seconds
+  let hour = UTCHour + Math.floor(timezone / 60 / 60);
+  let minute = UTCMinute + ((timezone / 60) % 60);
+
+  if (hour < 0) hour += 24;
+  if (hour < 10) hour = `0${hour}`;
+  if (minute < 0) minute += 60;
+  if (minute < 10) minute = `0${minute}`;
+
   return `${hour}:${minute}`;
+};
+
+export const getAfterIthHour = function (currTimeStr, i) {
+  let [hour] = currTimeStr.split(":");
+  hour = +hour + i;
+  if (hour > 23) hour -= 24;
+  if (hour < 10) hour = `0${hour}`;
+  return `${hour}:00`;
 };
 
 export const getDay = function (dt) {

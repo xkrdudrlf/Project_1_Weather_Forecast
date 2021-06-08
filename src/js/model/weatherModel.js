@@ -1,5 +1,11 @@
 import { KEY, API_URL_ONECALL, API_URL_REVERSE_GEOCODING } from "../config";
-import { getDay, getJSON, getTime, isBookmarked } from "../helpers";
+import {
+  getDay,
+  getJSON,
+  getTime,
+  getAfterIthHour,
+  isBookmarked,
+} from "../helpers";
 
 export const state = {
   coords: "",
@@ -52,7 +58,7 @@ const loadCurrentInfo = function (weatherInfo) {
   state.current.icon = weatherInfo.current.weather[0].icon;
   state.current.desc = weatherInfo.current.weather[0].main;
   state.current.temp = Math.floor(weatherInfo.current.temp);
-  state.current.time = getTime(weatherInfo.current.dt);
+  state.current.time = getTime(weatherInfo.timezone_offset);
 };
 
 const loadTodayInfo = function (weatherInfo) {
@@ -63,9 +69,9 @@ const loadTodayInfo = function (weatherInfo) {
 };
 
 const loadNext12HoursInfo = function (weatherInfo) {
-  state.hourly = weatherInfo.hourly.slice(1, 13).map((info) => {
+  state.hourly = weatherInfo.hourly.slice(1, 13).map((info, i) => {
     return {
-      time: getTime(info.dt),
+      time: getAfterIthHour(state.current.time, i + 1),
       temp: Math.floor(info.temp),
       icon: info.weather[0].icon,
     };
@@ -75,6 +81,7 @@ const loadNext12HoursInfo = function (weatherInfo) {
 const loadNext7DaysInfo = function (weatherInfo) {
   state.weekly = weatherInfo.daily.slice(1, 8).map((info) => {
     return {
+      // Need to work on setting the proper day logic.
       day: getDay(info.dt),
       min: Math.floor(info.temp.min),
       max: Math.floor(info.temp.max),

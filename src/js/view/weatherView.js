@@ -53,7 +53,9 @@ class WeatherView extends View {
       <div class="mid">
         <div class="weather-info--main">
           <div class="weather-icon--lg">
-            <img src="http://openweathermap.org/img/w/${this._data.current.icon}.png" alt="weather-icon">
+            <img src="http://openweathermap.org/img/w/${
+              this._data.current.icon
+            }.png" alt="weather-icon">
           </div>
           <div class="contents">
             <div class="item city">${this._data.current.city}</div>
@@ -66,7 +68,9 @@ class WeatherView extends View {
             <div class="item">Min: ${this._data.daily.min}</div>
             <div class="item">Max: ${this._data.daily.max}</div>
             <div class="item">UV: ${this._data.daily.uvi}</div>
-            <div class="item">Chances of Rain: ${this._data.daily.pop}%</div>
+            <div class="item">Chances of Rain: ${Math.floor(
+              this._data.daily.pop * 100
+            )}%</div>
           </div>
         </div>
       </div>

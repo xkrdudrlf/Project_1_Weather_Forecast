@@ -70,7 +70,7 @@ class SearchResultView extends View {
             </div>
             <div class="weather-info">
               <div class="temperature">${el.current.temp}℃</div>
-              <div class="time">${el.current.time}am</div>
+              <div class="time">${el.current.time}</div>
             </div>
           </div>
         </div>

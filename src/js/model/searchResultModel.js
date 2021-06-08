@@ -39,7 +39,6 @@ export const load = async function (cityName, bookmarks) {
         )
       )
     );
-
     // 3. Store data in "weatherDataArr" to "searchResult"
     weatherDataArr.forEach((weatherData) => {
       const weather = {
@@ -52,7 +51,7 @@ export const load = async function (cityName, bookmarks) {
         current: {
           icon: weatherData.weather[0].icon,
           temp: Math.floor(weatherData.main.temp),
-          time: getTime(weatherData.dt),
+          time: getTime(weatherData.timezone),
         },
         isBookmarked: isBookmarked(bookmarks, {
           lat: weatherData.coord.lat.toFixed(2),
